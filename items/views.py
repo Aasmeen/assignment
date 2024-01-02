@@ -1,4 +1,5 @@
 from rest_framework.exceptions import ValidationError
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveAPIView, ListAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -23,6 +24,8 @@ class ListItemsAPIView(ListAPIView):
     queryset = Items.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = ItemsSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['name', 'user__username']
 
 
 class UpdateItemAPIView(UpdateAPIView):
