@@ -1,6 +1,17 @@
 from rest_framework import serializers
 
+from accounts.models import CustomUser
 from items.models import Items
+
+
+class BaseItemSerializer(serializers.ModelSerializer):
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all(), write_only=True
+    )
+
+    class Meta:
+        fields = ('user_id', 'name', 'price', 'selling_price')
+        model = Items
 
 
 class ItemsSerializer(serializers.ModelSerializer):
@@ -32,3 +43,4 @@ class UpdateItemSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('name', 'price')
         model = Items
+    
